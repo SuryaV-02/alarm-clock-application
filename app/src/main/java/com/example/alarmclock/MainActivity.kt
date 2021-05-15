@@ -1,31 +1,37 @@
 package com.example.alarmclock
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Dialog
 import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     var hours =0
     var minutes =0
+    @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var mSelectedTime  = ""
-        var mSelectedMinute : Long = 0
-        var mSelectedHour: Long = 0
+//        var mSelectedTime  = ""
+//        var mSelectedMinute : Long = 0
+//        var mSelectedHour: Long = 0
+        var currentCalendarMillis : Long = 0
 
         val mTimePicker: TimePickerDialog
         val mcurrentTime = Calendar.getInstance()
@@ -34,15 +40,19 @@ class MainActivity : AppCompatActivity() {
 
         mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                mSelectedTime = String.format("%d : %d", hourOfDay, minute)
-                mSelectedHour = hourOfDay.toLong()
-                mSelectedMinute= minute.toLong()
-                Toast.makeText(applicationContext, "${System.currentTimeMillis()}", Toast.LENGTH_SHORT).show()
-
+//                mSelectedTime = String.format("%d : %d", hourOfDay, minute)
+//                mSelectedHour = hourOfDay.toLong()
+//                mSelectedMinute = minute.toLong()
+                val currentCalendar = Calendar.getInstance()
+                currentCalendar[Calendar.HOUR_OF_DAY] = hourOfDay
+                currentCalendar[Calendar.MINUTE] = minute
+                currentCalendar[Calendar.SECOND] = 0
+                currentCalendar[Calendar.MILLISECOND] = 0
+                currentCalendarMillis = currentCalendar.timeInMillis
             }
         }, hour, minute, false)
-
-        val inputTimeInSeconds = findViewById<EditText>(R.id.inputTimeInSeconds)
+//
+//        val inputTimeInSeconds = findViewById<EditText>(R.id.inputTimeInSeconds)
         val selectTime = findViewById<Button>(R.id.selectTime)
         selectTime.setOnClickListener {
             mTimePicker.show()
@@ -57,23 +67,40 @@ class MainActivity : AppCompatActivity() {
 //            var mCurrentMinute = mCurentMinuteFormat.format(Date()).toLong()
 //
 //            var mCurrentTimeInMs = (mCurrentHour*60*60*1000) + (mCurrentMinute*60*1000)
-//            var mSelectedTimeInMs  = (mSelectedHour*60*60*1000) + (mSelectedMinute*60*1000)
+//            var mSelectedTimeInMs  = (mSelectedHour*60*60) + (mSelectedMinute*60)
 //
-//            Log.i("mCurrentHour","$mCurrentHour")
-//            Log.i("mCurrentMinute","$mCurrentMinute")
-//            Log.i("mSelectedHour","$mSelectedHour")
-//            Log.i("mSelectedMinute","$mSelectedMinute")
-//            Log.i("mCurrentTimeInMs","$mCurrentTimeInMs")
-//            Log.i("mSelectedTimeInMs","$mSelectedTimeInMs")
+//            Log.i("mCurrentHour", "$mCurrentHour")
+//            Log.i("mCurrentMinute", "$mCurrentMinute")
+//            Log.i("mSelectedHour", "$mSelectedHour")
+//            Log.i("mSelectedMinute", "$mSelectedMinute")
+//            Log.i("mCurrentTimeInMs", "$mCurrentTimeInMs")
+//            Log.i("mSelectedTimeInMs", "$mSelectedTimeInMs")
 //
 //            var differenceInMs = mSelectedTimeInMs - mCurrentTimeInMs
-            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
-            var pendingIntent = PendingIntent.getBroadcast(applicationContext,111,i,0)
-            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+5000,pendingIntent)
-            //Toast.makeText(this, "$mCurrentMinute and $mSelectedMinute", Toast.LENGTH_SHORT).show()
-            //Log.i("$differenceInMs","Hour: ${differenceInMs/(1000*60)}")
 
+//
+//            val cal = Calendar.getInstance()
+//            cal.set(Calendar.YEAR,Calendar.MONTH,Calendar.DATE,mSelectedHour.toInt(),mSelectedMinute.toInt())
+//            val ms = cal.timeInMillis
+//
+//            Log.i("Cal in ms :", "cal = $ms")
+
+            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
+            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
+            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//
+//
+//            val calendar: Calendar = Calendar.getInstance()
+//            calendar.timeInMillis = System.currentTimeMillis()
+//            calendar.add(Calendar.SECOND, 3)
+//
+//            val d = currentCalendarMillis
+//
+//
+//
+//            //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP,currentCalendarMillis, pendingIntent)
         }
 
 
