@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/clock"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/clock"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
         <activity android:name=".alarmRinging"></activity>
@@ -19,6 +19,9 @@
         </activity>
 
         <receiver android:name=".myBroadcastReceiver" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

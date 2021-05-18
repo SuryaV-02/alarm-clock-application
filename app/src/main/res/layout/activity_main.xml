@@ -8,39 +8,44 @@
     tools:context=".MainActivity"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@color/dark_bg"
+    android:background="@drawable/gradiant_background"
+    android:padding="20dp"
     >
 
     <TextView
+        android:layout_marginTop="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Alarm Clock"
-        android:textSize="50dp"
-        android:layout_marginTop="100dp"
+        android:textSize="60dp"
         android:textColor="@color/milky_white"
+        android:fontFamily="@font/arizonia"
         />
-    <EditText
-        android:id="@+id/inputTimeInSeconds"
+    <Button
+        android:id="@+id/createAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter time in seconds"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/milky_white"
-        android:textColorHint="@color/milky_white"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rounded_button_background"
+        android:text="Create Alarm"
+        android:paddingHorizontal="50dp"
         />
 
     <Button
         android:id="@+id/selectTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_button_background"
         android:text="select time"
+        android:paddingHorizontal="50dp"
         />
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="5dp"
-        android:text="set alarm"
-        />
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="50dp"
+        android:background="@drawable/rounded_button_background"
+        android:text="set alarm" />
   </LinearLayout>

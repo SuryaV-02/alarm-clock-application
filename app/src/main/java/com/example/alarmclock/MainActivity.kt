@@ -9,6 +9,7 @@ import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TimePicker
 import android.widget.Toast
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         var selectedCalendarMillis : Long = 0
         var currentCalendarMillis : Long = 0
-        var hours24CalendarMillis : Long = 0
+        var remainingTimeInTheDay : Long = 0
         val mTimePicker: TimePickerDialog
 
         val mcurrentCalender = Calendar.getInstance()
@@ -32,12 +33,13 @@ class MainActivity : AppCompatActivity() {
         currentCalendarMillis = mcurrentCalender.timeInMillis
 
 
-        val m24HoursTime = Calendar.getInstance()
-        m24HoursTime[Calendar.HOUR_OF_DAY] = 24
-        m24HoursTime[Calendar.MINUTE] = 0
-        m24HoursTime[Calendar.SECOND] = 0
-        m24HoursTime[Calendar.MILLISECOND] = 0
-        hours24CalendarMillis = mcurrentCalender.timeInMillis
+        val remainingTimeCalendar = Calendar.getInstance()
+        remainingTimeCalendar[Calendar.DAY_OF_MONTH] = 1
+        remainingTimeCalendar[Calendar.MINUTE] = 0
+        remainingTimeCalendar[Calendar.SECOND] = 0
+        remainingTimeCalendar[Calendar.MILLISECOND] = 0
+        remainingTimeInTheDay = System.currentTimeMillis() - remainingTimeCalendar.timeInMillis
+
 
 
         mTimePicker = TimePickerDialog(this, object : TimePickerDialog.OnTimeSetListener {
@@ -49,9 +51,12 @@ class MainActivity : AppCompatActivity() {
                 selectedCalendar[Calendar.MILLISECOND] = 0
                 selectedCalendarMillis = selectedCalendar.timeInMillis
                 if (mcurrentCalender.get(Calendar.HOUR_OF_DAY) > selectedCalendar[Calendar.HOUR_OF_DAY]) {
-                    selectedCalendarMillis += (hours24CalendarMillis - currentCalendarMillis)
+                    selectedCalendarMillis += remainingTimeInTheDay
                     Toast.makeText(applicationContext, "Alarm set for Tomorrow $hourOfDay : $minute", Toast.LENGTH_SHORT).show()
-                }else{
+                    var milliSeconds_TEST: Long = selectedCalendarMillis
+                    Log.i("Result Milliseconds", "$milliSeconds_TEST ==> ${milliSeconds_TEST / (1000 * 60 * 60)}")
+                    Toast.makeText(applicationContext, "${milliSeconds_TEST/(1000*60*60)}", Toast.LENGTH_LONG).show()
+                } else {
                     Toast.makeText(applicationContext, "Alarm set!", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -67,6 +72,12 @@ class MainActivity : AppCompatActivity() {
             var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
             var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.RTC_WAKEUP,selectedCalendarMillis, pendingIntent)
+            Toast.makeText(this, "SET SUCCESS", Toast.LENGTH_SHORT).show()
+        }
+
+        val createAlarm = findViewById<Button>(R.id.createAlarm)
+        createAlarm.setOnClickListener {
+            //val intent = Intent(this)
         }
     }
 }

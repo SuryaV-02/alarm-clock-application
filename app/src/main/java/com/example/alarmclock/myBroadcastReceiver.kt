@@ -3,11 +3,14 @@ package com.example.alarmclock
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+
 
 class myBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        var i = Intent(context,alarmRinging::class.java)
+        var i = Intent(context, alarmRinging::class.java)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context?.startActivity(i)
     }
