@@ -9,7 +9,8 @@
         android:roundIcon="@drawable/clock"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
-        <activity android:name=".alarmRinging"></activity>
+        <activity android:name=".createAlarm"></activity>
+        <activity android:name=".alarmRinging" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +20,7 @@
         </activity>
 
         <receiver android:name=".myBroadcastReceiver" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

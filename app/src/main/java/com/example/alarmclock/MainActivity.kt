@@ -75,9 +75,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "SET SUCCESS", Toast.LENGTH_SHORT).show()
         }
 
-        val createAlarm = findViewById<Button>(R.id.createAlarm)
-        createAlarm.setOnClickListener {
-            //val intent = Intent(this)
+        val createAlarmButton = findViewById<Button>(R.id.createAlarm)
+        createAlarmButton.setOnClickListener {
+            val intent = Intent(this,createAlarm::class.java)
+            startActivity(intent)
         }
     }
 }
