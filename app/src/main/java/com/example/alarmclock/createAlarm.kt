@@ -3,10 +3,7 @@ package com.example.alarmclock
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 
 class createAlarm : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +12,9 @@ class createAlarm : AppCompatActivity() {
         val alarmTypeList = resources.getStringArray(R.array.alarmType)
 
         val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
+        val ctv_important = findViewById<CheckedTextView>(R.id.ctv_important)
+        val ctv_wake_me_up = findViewById<CheckedTextView>(R.id.ctv_wake_me_up)
+
         if (dd_alarmType != null) {
             val adapter = ArrayAdapter(
                 this,
@@ -39,5 +39,20 @@ class createAlarm : AppCompatActivity() {
                 }
             }
         }
+
+        if(ctv_important!=null){
+            ctv_important.isChecked = false
+        }
+        ctv_important.setOnClickListener {
+            ctv_important.isChecked = !ctv_important.isChecked
+            // TODO: 19-May-21  
+            is_important = true
+            Toast.makeText(this, "${is_important.toString()}", Toast.LENGTH_SHORT).show()
+        }
+        
     }
+    companion object{
+        var is_important : Boolean = false
+    }
+    
 }
