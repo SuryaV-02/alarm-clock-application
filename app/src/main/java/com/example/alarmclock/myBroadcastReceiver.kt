@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
+import com.example.alarmclock.createAlarm.Companion.is_important
 
 
 class myBroadcastReceiver : BroadcastReceiver() {

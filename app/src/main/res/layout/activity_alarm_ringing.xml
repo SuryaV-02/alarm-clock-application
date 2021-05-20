@@ -7,7 +7,7 @@
     tools:context=".alarmRinging"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/gradiant_background"
+    android:background="@color/milky_white"
     >
     <TextView
         android:layout_width="wrap_content"
@@ -15,8 +15,8 @@
         android:text="Time's up!"
         android:textSize="80dp"
         android:layout_marginTop="50dp"
-        android:textColor="@color/milky_white"
-        android:fontFamily="@font/arizonia"
+        android:textColor="@color/dark_black"
+        android:fontFamily="@font/roboto"
         />
     <Button
         android:id="@+id/snoozeButton"
@@ -25,7 +25,7 @@
         android:layout_marginTop="30dp"
         android:alpha="0.8"
         android:background="@drawable/snooze_button"
-        android:fontFamily="@font/condiment"
+        android:fontFamily="@font/roboto"
         android:text="time"
         android:textColor="@color/milky_white"
         android:textSize="50dp" />
@@ -37,7 +37,7 @@
         android:layout_marginVertical="50dp"
         android:alpha="0.8"
         android:background="@drawable/stop_button"
-        android:fontFamily="@font/condiment"
+        android:fontFamily="@font/roboto"
         android:text="STOP"
         android:textColor="@color/milky_white"
         android:textSize="20dp" />
