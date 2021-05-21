@@ -27,12 +27,11 @@ class createAlarm : AppCompatActivity() {
         val createAlarmButton = findViewById<Button>(R.id.createAlarmButton)
 
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
-        val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
 
         createAlarmButton.setOnClickListener {
             this.createAlarmNow()
         }
-
+        val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
         if (dd_alarmType != null) {
             val adapter = ArrayAdapter(
                     this,
@@ -40,7 +39,7 @@ class createAlarm : AppCompatActivity() {
             )
             dd_alarmType.adapter = adapter
             dd_alarmType.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
+                    AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                         parent: AdapterView<*>,
                         view: View, position: Int, id: Long
@@ -51,9 +50,14 @@ class createAlarm : AppCompatActivity() {
                                     "" + alarmTypeList[position], Toast.LENGTH_SHORT
                     ).show()
 
-                    if(position==1) {
-                        remainderTypeChosen()
-
+                    if(position==1){
+                        val description = findViewById<EditText>(R.id.description)
+                        description.visibility = View.VISIBLE
+                        pose=1
+                    }else{
+                        val description = findViewById<EditText>(R.id.description)
+                        description.visibility = View.GONE
+                        pose=0
                     }
                 }
 
@@ -62,11 +66,13 @@ class createAlarm : AppCompatActivity() {
                 }
             }
         }
+
     }
     @RequiresApi(Build.VERSION_CODES.N)
     fun createAlarmNow(){
         val labelText = findViewById<EditText>(R.id.labelText)
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
+        val description = findViewById<EditText>(R.id.description)
         val now = Calendar.getInstance()
         val alarm = Calendar.getInstance()
         alarm[Calendar.HOUR_OF_DAY] = time_picker.hour
@@ -76,7 +82,9 @@ class createAlarm : AppCompatActivity() {
         } //Add 1 day if time selected before now
         var i = Intent(applicationContext, myBroadcastReceiver::class.java)
         i.putExtra("labelText","${labelText.text}")
-
+        if(pose==1){
+            i.putExtra("desc",  "${description.text}")
+        }
         var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
         var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
@@ -89,11 +97,11 @@ class createAlarm : AppCompatActivity() {
     }
 
     fun remainderTypeChosen(){
-        val description = findViewById<EditText>(R.id.description)
-        description.visibility = View.VISIBLE
+
     }
     companion object{
         var is_important : Boolean = false
+        var pose = 0
     }
     
 }
