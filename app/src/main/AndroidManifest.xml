@@ -9,11 +9,12 @@
         android:roundIcon="@drawable/clock"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
-        <activity android:name=".createAlarm"></activity>
-        <activity android:name=".alarmRinging"
+        <activity android:name=".after_notification"></activity>
+        <activity android:name=".createAlarm" />
+        <activity
+            android:name=".alarmRinging"
             android:showOnLockScreen="true"
-            android:turnScreenOn="true"
-            />
+            android:turnScreenOn="true" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

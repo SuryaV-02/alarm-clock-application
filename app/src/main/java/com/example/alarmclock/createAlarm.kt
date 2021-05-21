@@ -1,9 +1,10 @@
 package com.example.alarmclock
 
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
@@ -84,16 +85,50 @@ class createAlarm : AppCompatActivity() {
         i.putExtra("labelText","${labelText.text}")
         if(pose==1){
             i.putExtra("desc",  "${description.text}")
+            lateinit var notificationManager: NotificationManager
+            lateinit var notificationChannel: NotificationChannel
+            lateinit var builder: Notification.Builder
+            val channelId = "i.apps.notifications"
+            val description = "Test notification"
+            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val i = Intent(this,after_notification::class.java)
+            val pendingIntent = PendingIntent.getActivity(this, 0,i, PendingIntent.FLAG_UPDATE_CURRENT)
+//            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, pendingIntent)
+            val contentView = RemoteViews(packageName, R.layout.activity_after_notification)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.GREEN
+                notificationChannel.enableVibration(false)
+                notificationManager.createNotificationChannel(notificationChannel)
+
+                builder = Notification.Builder(this, channelId)
+                        .setContent(contentView)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
+                        .setContentIntent(pendingIntent)
+            } else {
+
+                builder = Notification.Builder(this)
+                        .setContent(contentView)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
+                        .setContentIntent(pendingIntent)
+            }
+            notificationManager.notify(1234, builder.build())
+
+        }else{
+            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
+            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
+            val hour = alarm.get(Calendar.HOUR_OF_DAY)
+            val minute = alarm.get(Calendar.MINUTE)
+            val am_pm = if(hour<12) "AM"
+            else "PM"
+            Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
+            finish()
         }
-        var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
-        var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
-        val hour = alarm.get(Calendar.HOUR_OF_DAY)
-        val minute = alarm.get(Calendar.MINUTE)
-        val am_pm = if(hour<12) "AM"
-        else "PM"
-        Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
-        finish()
     }
 
     fun remainderTypeChosen(){
