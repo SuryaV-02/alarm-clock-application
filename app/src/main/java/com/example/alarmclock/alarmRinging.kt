@@ -7,6 +7,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
@@ -18,10 +19,9 @@ import java.util.*
 class alarmRinging : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val w = window
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        }
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
         this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN or
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
@@ -40,7 +40,7 @@ class alarmRinging : AppCompatActivity() {
         val snoozeButton = findViewById<Button>(R.id.snoozeButton)
         val sdf = SimpleDateFormat("hh:mm")
         val currentTime = sdf.format(Date()).toString()
-        snoozeButton.text = currentTime
+        snoozeButton.text = intent.getStringExtra("labelText")
         stopButton.setOnClickListener {
             mp.stop()
             finish()

@@ -24,13 +24,10 @@ class createAlarm : AppCompatActivity() {
         }
         setContentView(R.layout.activity_create_alarm)
         val alarmTypeList = resources.getStringArray(R.array.alarmType)
+        val createAlarmButton = findViewById<Button>(R.id.createAlarmButton)
 
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
         val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
-        val ctv_important = findViewById<CheckedTextView>(R.id.ctv_important)
-        val ctv_wake_me_up = findViewById<CheckedTextView>(R.id.ctv_wake_me_up)
-        val createAlarmButton = findViewById<Button>(R.id.createAlarmButton)
-        val labelText = findViewById<EditText>(R.id.labelText)
 
         createAlarmButton.setOnClickListener {
             this.createAlarmNow()
@@ -53,6 +50,11 @@ class createAlarm : AppCompatActivity() {
                             "Selected item " +
                                     "" + alarmTypeList[position], Toast.LENGTH_SHORT
                     ).show()
+
+                    if(position==1) {
+                        remainderTypeChosen()
+
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -60,20 +62,10 @@ class createAlarm : AppCompatActivity() {
                 }
             }
         }
-
-        if(ctv_important!=null){
-            ctv_important.isChecked = false
-        }
-        ctv_important.setOnClickListener {
-            ctv_important.isChecked = !ctv_important.isChecked
-            // TODO: 19-May-21  
-            is_important = true
-            Toast.makeText(this, "${is_important.toString()}", Toast.LENGTH_SHORT).show()
-        }
-        
     }
     @RequiresApi(Build.VERSION_CODES.N)
     fun createAlarmNow(){
+        val labelText = findViewById<EditText>(R.id.labelText)
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
         val now = Calendar.getInstance()
         val alarm = Calendar.getInstance()
@@ -83,6 +75,8 @@ class createAlarm : AppCompatActivity() {
             alarm.add(Calendar.DAY_OF_MONTH, 1)
         } //Add 1 day if time selected before now
         var i = Intent(applicationContext, myBroadcastReceiver::class.java)
+        i.putExtra("labelText","${labelText.text}")
+
         var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
         var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
@@ -90,10 +84,14 @@ class createAlarm : AppCompatActivity() {
         val minute = alarm.get(Calendar.MINUTE)
         val am_pm = if(hour<12) "AM"
         else "PM"
-        Toast.makeText(this, "Alarm set for ${hour%12} : $minute : $am_pm", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
         finish()
     }
 
+    fun remainderTypeChosen(){
+        val description = findViewById<EditText>(R.id.description)
+        description.visibility = View.VISIBLE
+    }
     companion object{
         var is_important : Boolean = false
     }

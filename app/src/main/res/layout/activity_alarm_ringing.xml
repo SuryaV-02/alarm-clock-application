@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/milky_white"
+    android:fitsSystemWindows="true"
     >
     <TextView
         android:layout_width="wrap_content"
@@ -28,7 +29,10 @@
         android:fontFamily="@font/roboto"
         android:text="time"
         android:textColor="@color/milky_white"
-        android:textSize="50dp" />
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:ellipsize="end"
+        />
 
     <Button
         android:id="@+id/stopButton"

@@ -22,6 +22,29 @@
             android:layout_height="wrap_content"
             android:timePickerMode="spinner"
             />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="30dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto"
+            android:text="Type"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+        <Spinner
+            android:id="@+id/dd_alarmType"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +60,7 @@
                 android:text="Label"
                 android:textColor="@color/black"
                 android:textSize="20sp"
+                android:visibility="visible"
                 />
             <EditText
                 android:id="@+id/labelText"
@@ -47,186 +71,30 @@
                 android:textAlignment="center"
                 android:fontFamily="@font/roboto"
                 android:background="@drawable/edit_text_bg"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="30dp"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
-                android:text="Type"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                />
-            <Spinner
-                android:id="@+id/dd_alarmType"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center"
+                android:visibility="visible"
                 />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_thin"
-            android:text="Attributes"
-            android:textColor="@color/dark_black"
-            android:textSize="40dp"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:paddingHorizontal="50dp"
-            android:layout_marginTop="10dp"
-            >
-            <CheckedTextView
-                android:id="@+id/ctv_important"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Important"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_wake_me_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wake me up"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-        </LinearLayout>
-        <TextView
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Repeat"
-            android:textSize="40dp"
-            android:textColor="@color/dark_black"
-            android:fontFamily="@font/roboto"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:paddingHorizontal="50dp"
-            android:layout_marginTop="10dp"
-            >
-            <CheckedTextView
-                android:id="@+id/ctv_sunday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sunday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_monday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Monday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_tuesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tuesday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_wednesday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wednesday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_thursday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thursday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_friday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Friday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-            <CheckedTextView
-                android:id="@+id/ctv_saturday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Saturday"
-                android:checked="true"
-                android:gravity="center"
-                android:textColor="@color/dark_black"
-                android:textSize="20sp"
-                android:checkMark="@null"
-                android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
-                />
-        </LinearLayout>
-        <Button
-            android:id="@+id/createAlarmButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="create"
-            android:textColor="@color/milky_white"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/rounded_button_background"
-            android:fontFamily="@font/roboto_bold"
-            />
+    <EditText
+        android:id="@+id/description"
+        android:layout_marginTop="50sp"
+        android:hint="Description"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:background="@drawable/description_text_bg"
+        android:visibility="gone"
+        />
+    <Button
+        android:id="@+id/createAlarmButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="create"
+        android:textColor="@color/milky_white"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/roboto_bold"
+        />
 </LinearLayout>
 </ScrollView>
