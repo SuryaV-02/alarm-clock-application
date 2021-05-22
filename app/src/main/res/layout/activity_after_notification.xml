@@ -9,8 +9,20 @@
     android:background="@color/milky_white"
     android:fitsSystemWindows="true"
     android:padding="10dp"
+    android:gravity="center_horizontal"
     >
     <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TITLE"
+        android:textSize="50dp"
+        android:textColor="@color/dark_black"
+        android:fontFamily="@font/roboto"
+        />
+    <TextView
+        android:id="@+id/descriptionArea"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Jai SiKalahasthieeshwarar!"
@@ -18,5 +30,14 @@
         android:textColor="@color/dark_black"
         android:fontFamily="@font/roboto"
         />
-
+    <Button
+        android:id="@+id/stopButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:textColor="@color/milky_white"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/rounded_button_background"
+        android:fontFamily="@font/roboto_bold"
+        />
 </LinearLayout>
