@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -87,50 +88,37 @@ class createAlarm : AppCompatActivity(){
 
         // IN case of remainder
         if(pose==1){
-            lateinit var notificationManager: NotificationManager
-            lateinit var notificationChannel: NotificationChannel
-            lateinit var builder: Notification.Builder
-            val channelId = "i.apps.notifications"
-            val description = "Test notification"
-            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
-            i.removeExtra("type")
+//            Toast.makeText(applicationContext, "remainder selected", Toast.LENGTH_SHORT).show()
+//            var i = Intent(applicationContext, myBroadcastReceiver2::class.java)
+//            i.putExtra("labelText","${labelText.text}")
+//            i.putExtra("desc",  "${descriptionField.text}")
+//            val type = "R"
+//            Log.i("Type","@create = $type")
+//            i.putExtra("type","$type")
+//            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
+//            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, pendingIntent)
+            Toast.makeText(this,"remainder type", Toast.LENGTH_SHORT).show()
+            var i = Intent(applicationContext, myBroadcastReceiver2::class.java)
             i.putExtra("labelText","${labelText.text}")
-            i.putExtra("desc",  "${descriptionField.text}")
-            val type = "R"
+            i.removeExtra("type")
+            val type = "A"
             Log.i("Type","@create = $type")
             i.putExtra("type","$type")
             var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
             var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, pendingIntent)
-            val contentView = RemoteViews(packageName, R.layout.activity_after_notification)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
-                notificationChannel.enableLights(true)
-                notificationChannel.lightColor = Color.GREEN
-                notificationChannel.enableVibration(false)
-                notificationManager.createNotificationChannel(notificationChannel)
-
-                builder = Notification.Builder(this, channelId)
-                        .setContent(contentView)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
-                        .setContentIntent(pendingIntent)
-            }else {
-
-                builder = Notification.Builder(this)
-                        .setContent(contentView)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
-                        .setContentIntent(pendingIntent)
-            }
-            notificationManager.notify(1234, builder.build())
-
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
+            val hour = alarm.get(Calendar.HOUR_OF_DAY)
+            val minute = alarm.get(Calendar.MINUTE)
+            val am_pm = if(hour<12) "AM"
+            else "PM"
+            Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
+            finish()
         }
         // IN case of Alarm
         else{
             Toast.makeText(this,"Alarm type", Toast.LENGTH_SHORT).show()
-            var i = Intent(applicationContext, alarmRinging::class.java)
+            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
             i.putExtra("labelText","${labelText.text}")
             i.removeExtra("type")
             val type = "A"
