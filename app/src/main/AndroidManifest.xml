@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alarmclock">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/clock"
@@ -14,7 +16,9 @@
         <activity
             android:name=".alarmRinging"
             android:showOnLockScreen="true"
-            android:turnScreenOn="true" />
+            android:turnScreenOn="true"
+            android:showWhenLocked="true"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

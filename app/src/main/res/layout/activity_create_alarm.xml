@@ -1,52 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:gravity="left"
-    android:orientation="vertical"
     android:background="@color/milky_white"
-    android:paddingHorizontal="20dp"
-    android:paddingBottom="20dp"
-    android:layout_marginTop="30dp"
-    >
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Set your alarm details"
+            android:textColor="@color/dark_black"
+            android:textSize="50dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="start"
+        android:orientation="vertical">
+
         <TimePicker
             android:id="@+id/time_picker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:timePickerMode="spinner"
-            />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="30dp"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/roboto"
-            android:text="Type"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            />
-        <Spinner
-            android:id="@+id/dd_alarmType"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            />
-    </LinearLayout>
+            android:timePickerMode="spinner" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="30dp"
+            android:paddingHorizontal="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto"
+                android:text="Type"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/dd_alarmType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingVertical="5dp"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            >
+            android:gravity="center"
+            android:paddingHorizontal="30dp">
+
             <TextView
                 android:id="@+id/font"
                 android:layout_width="wrap_content"
@@ -56,40 +77,48 @@
                 android:text="Label"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
+
             <EditText
                 android:id="@+id/labelText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/dark_black"
-                android:textAlignment="center"
-                android:fontFamily="@font/roboto"
                 android:background="@drawable/edit_text_bg"
-                android:visibility="visible"
-                />
+                android:fontFamily="@font/roboto"
+                android:paddingVertical="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/dark_black"
+                android:visibility="visible" />
         </LinearLayout>
 
-    <EditText
-        android:id="@+id/description"
-        android:layout_marginTop="50sp"
-        android:hint="Description"
-        android:layout_gravity="center"
+        <EditText
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="100sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50sp"
+            android:background="@drawable/description_text_bg"
+            android:gravity="center"
+            android:hint="Description"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:background="@drawable/description_text_bg"
-        android:visibility="gone"
-        />
-    <Button
-        android:id="@+id/createAlarmButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="create"
-        android:textColor="@color/milky_white"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/rounded_button_background"
-        android:fontFamily="@font/roboto_bold"
-        />
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/createAlarmButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_background"
+            android:fontFamily="@font/roboto_bold"
+            android:paddingHorizontal="80dp"
+            android:text="create"
+            android:textColor="@color/milky_white" />
+    </LinearLayout>
 </LinearLayout>
