@@ -7,8 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -18,9 +16,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 
 
 class createAlarm : AppCompatActivity(){
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,7 +146,8 @@ class createAlarm : AppCompatActivity(){
 //            val am_pm = if(hour<12) "AM"
 //            else "PM"
 //            Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
-            buttonClick()
+            userMessage = labelText.text.toString()
+            buttonClick(alarm)
             finish()
 //        }
     }
@@ -166,14 +167,14 @@ class createAlarm : AppCompatActivity(){
         }
     }
 
-    fun buttonClick() {
+    fun buttonClick(alarm: Calendar) {
         val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
         val pendingIntent =
             PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager?.set(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + 5000,
+            alarm.timeInMillis,
             pendingIntent
         )
         NotificationManagerCompat.from(this)
@@ -183,17 +184,15 @@ class createAlarm : AppCompatActivity(){
     companion object{
         var is_important : Boolean = false
         var pose = 0
-
         val CHANNEL_ID = "my_channel"
         val FULL_SCREEN_ACTION = "full_screen_action"
         val NOTIFICATION_ID = 1
 
+        var userMessage : String = "Time's up..."
 
         fun CreateFullScreenNotification(context: Context?, intentParam: Intent) {
-            val attributes = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                .build()
             val intent = Intent(context, alarmRinging::class.java)
+            intent.putExtra("user-custom_message",userMessage)
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_USER_ACTION or Intent.FLAG_ACTIVITY_SINGLE_TOP
             val pendingIntent =
@@ -207,16 +206,10 @@ class createAlarm : AppCompatActivity(){
                 .setFullScreenIntent(pendingIntent, true)
                 .setContentIntent(pendingIntent)
                 .setNotificationSilent()
-//                .setSound(Uri.parse("android.resource://"+context.packageName +"/"+R.raw.realme_tune),)
             NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notificationBuilder.build())
-//            var i = Intent(context, alarmRinging::class.java)
-//            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_USER_ACTION or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//            val newLabel = intentParam?.getStringExtra("labelText").toString()
-//            i.putExtra("labelText",newLabel)
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            context?.startActivity(i)
-//            val mp: MediaPlayer = MediaPlayer.create(context, R.raw.realme_tune)
-//            mp.start()
+
+//            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//            alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, pendingIntent)
         }
     }
 

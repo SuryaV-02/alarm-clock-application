@@ -13,20 +13,21 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
 
 class alarmRinging : AppCompatActivity() {
-
-    companion object{
-
-    }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -40,6 +41,7 @@ class alarmRinging : AppCompatActivity() {
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
 
         setContentView(R.layout.activity_alarm_ringing)
+        setElementsData()
 
         var SNOOZE_TIME: Long = 2*60*1000 //mins -> milli seconds
 
@@ -58,6 +60,7 @@ class alarmRinging : AppCompatActivity() {
         snoozeButton.setOnClickListener {
             mp.stop()
             var i = Intent(applicationContext, myBroadcastReceiver::class.java)
+            i.putExtra("user-custom_message", createAlarm.userMessage)
             var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
             var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + SNOOZE_TIME, pendingIntent)
@@ -66,7 +69,22 @@ class alarmRinging : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun setElementsData() {
+        val tv_usr_custom_message = findViewById<TextView>(R.id.tv_usr_custom_message)
+        val tv_alarm_ring_title = findViewById<TextView>(R.id.tv_alarm_ring_title)
+        tv_alarm_ring_title.text = getCurrentTime("HH : mm")
+        tv_usr_custom_message.text = intent.getStringExtra("user-custom_message")
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getCurrentTime(format: String): CharSequence? {
+        val current = LocalDateTime.now()
+        val formatter =DateTimeFormatter.ofPattern(format)
+        val formatted = current.format(formatter)
+        println("Current Date and Time is: $formatted")
+        return formatted
+    }
 
 
 }

@@ -6,6 +6,7 @@
     android:background="@color/milky_white"
     android:gravity="center"
     android:orientation="vertical"
+    android:paddingVertical="10dp"
     tools:context=".MainActivity">
 
     <LinearLayout
