@@ -16,7 +16,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class createAlarm : AppCompatActivity(){
@@ -40,13 +41,16 @@ class createAlarm : AppCompatActivity(){
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
         setContentView(R.layout.activity_create_alarm)
+        dbHelper = SqliteOpenHelper(this,null)
+
         val alarmTypeList = resources.getStringArray(R.array.alarmType)
         val createAlarmButton = findViewById<Button>(R.id.createAlarmButton)
 
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
 
         createAlarmButton.setOnClickListener {
-            this.createAlarmNow()
+            createAlarmSchedule()
+
         }
         val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
         if (dd_alarmType != null) {
@@ -86,11 +90,13 @@ class createAlarm : AppCompatActivity(){
         }
 
     }
+
     @RequiresApi(Build.VERSION_CODES.N)
-    fun createAlarmNow(){
-        val labelText = findViewById<EditText>(R.id.labelText)
+    private fun createAlarmSchedule() {
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
-        val descriptionField = findViewById<EditText>(R.id.description)
+        val labelText = findViewById<EditText>(R.id.labelText)
+        val sdf = SimpleDateFormat("hh:mm")
+
         val now = Calendar.getInstance()
         val alarm = Calendar.getInstance()
         alarm[Calendar.HOUR_OF_DAY] = time_picker.hour
@@ -99,57 +105,24 @@ class createAlarm : AppCompatActivity(){
             alarm.add(Calendar.DAY_OF_MONTH, 1)
         } //Add 1 day if time selected before now
 
+        userMessage = labelText.text.toString()
+        val millisecs  = alarm.timeInMillis
+        val label = userMessage
+        val time =  sdf.format(alarm.time).toString()
+        val status = DEFAULT_STATUS
+        val id = UUID.randomUUID().toString()
 
-        // IN case of remainder
-//        if(pose==1){
-////            Toast.makeText(applicationContext, "remainder selected", Toast.LENGTH_SHORT).show()
-////            var i = Intent(applicationContext, myBroadcastReceiver2::class.java)
-////            i.putExtra("labelText","${labelText.text}")
-////            i.putExtra("desc",  "${descriptionField.text}")
-////            val type = "R"
-////            Log.i("Type","@create = $type")
-////            i.putExtra("type","$type")
-////            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
-////            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-////            alarmManager.set(AlarmManager.RTC_WAKEUP, 5000, pendingIntent)
-//            Toast.makeText(this,"remainder type", Toast.LENGTH_SHORT).show()
-//            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
-//            i.putExtra("labelText","${labelText.text}")
-//            i.removeExtra("type")
-//            val type = "A"
-//            Log.i("Type","@create = $type")
-//            i.putExtra("type","$type")
-//            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
-//            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
-//            val hour = alarm.get(Calendar.HOUR_OF_DAY)
-//            val minute = alarm.get(Calendar.MINUTE)
-//            val am_pm = if(hour<12) "AM"
-//            else "PM"
-//            Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
-//            finish()
-//        }
-        // IN case of Alarm
-//        else{
-           // Toast.makeText(this,"Alarm type", Toast.LENGTH_SHORT).show()
-//            var i = Intent(applicationContext, myBroadcastReceiver::class.java)
-//            i.putExtra("labelText","${labelText.text}")
-//            i.removeExtra("type")
-//            val type = "A"
-//            Log.i("Type","@create = $type")
-//            i.putExtra("type","$type")
-//            var pendingIntent = PendingIntent.getBroadcast(applicationContext, 111, i, 0)
-//            var alarmManager : AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm.timeInMillis, pendingIntent)
-//            val hour = alarm.get(Calendar.HOUR_OF_DAY)
-//            val minute = alarm.get(Calendar.MINUTE)
-//            val am_pm = if(hour<12) "AM"
-//            else "PM"
-//            Toast.makeText(this, "Alarm set for ${hour%12} : $minute $am_pm", Toast.LENGTH_SHORT).show()
-            userMessage = labelText.text.toString()
-            buttonClick(alarm)
-            finish()
-//        }
+        dbHelper!!.createAlarmSchedule(id,time,label,millisecs,status)
+        this.createAlarmNow()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun createAlarmNow(){
+        val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
+        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
+            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
+        buttonClick(latestSchedule)
+        finish()
     }
 
     fun createNotificationChannel(context: Context) {
@@ -167,14 +140,15 @@ class createAlarm : AppCompatActivity(){
         }
     }
 
-    fun buttonClick(alarm: Calendar) {
+    fun buttonClick(alarmSchedule: AlarmSchedule) {
         val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
+        intent.putExtra("alarmID",alarmSchedule.id)
         val pendingIntent =
             PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager?.set(
             AlarmManager.RTC_WAKEUP,
-            alarm.timeInMillis,
+            alarmSchedule.getMilliSecs()!!,
             pendingIntent
         )
         NotificationManagerCompat.from(this)
@@ -187,12 +161,13 @@ class createAlarm : AppCompatActivity(){
         val CHANNEL_ID = "my_channel"
         val FULL_SCREEN_ACTION = "full_screen_action"
         val NOTIFICATION_ID = 1
-
+        val DEFAULT_STATUS = "ON"
         var userMessage : String = "Time's up..."
-
+        var dbHelper : SqliteOpenHelper? = null
         fun CreateFullScreenNotification(context: Context?, intentParam: Intent) {
             val intent = Intent(context, alarmRinging::class.java)
             intent.putExtra("user-custom_message",userMessage)
+            intent.putExtra("alarmID",intentParam.getStringExtra("alarmID"))
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_USER_ACTION or Intent.FLAG_ACTIVITY_SINGLE_TOP
             val pendingIntent =

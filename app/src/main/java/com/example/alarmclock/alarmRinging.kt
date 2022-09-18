@@ -27,6 +27,9 @@ import java.util.*
 
 
 class alarmRinging : AppCompatActivity() {
+    companion object{
+        var dbHelper : SqliteOpenHelper? = null
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,8 @@ class alarmRinging : AppCompatActivity() {
 
         setContentView(R.layout.activity_alarm_ringing)
         setElementsData()
+        dbHelper = SqliteOpenHelper(this,null)
+        dbHelper!!.toggleAlarmSchedule(intent.getStringExtra("alarmID").toString())
 
         var SNOOZE_TIME: Long = 2*60*1000 //mins -> milli seconds
 
@@ -54,6 +59,8 @@ class alarmRinging : AppCompatActivity() {
         val currentTime = sdf.format(Date()).toString()
         snoozeButton.text = intent.getStringExtra("labelText")
         stopButton.setOnClickListener {
+//            val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
+//            buttonClick(latestSchedule)
             mp.stop()
             finish()
         }
@@ -84,6 +91,20 @@ class alarmRinging : AppCompatActivity() {
         val formatted = current.format(formatter)
         println("Current Date and Time is: $formatted")
         return formatted
+    }
+
+    fun buttonClick(alarmSchedule: AlarmSchedule) {
+        val intent = Intent(createAlarm.FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager?.set(
+            AlarmManager.RTC_WAKEUP,
+            alarmSchedule.getMilliSecs()!!,
+            pendingIntent
+        )
+        NotificationManagerCompat.from(this)
+            .cancel(createAlarm.NOTIFICATION_ID) //cancel last notification for repeated tests
     }
 
 
