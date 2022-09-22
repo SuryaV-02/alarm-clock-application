@@ -86,6 +86,32 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         return alarmSchedules
     }
 
+    fun getAllAlarmSchedules() : TreeSet<AlarmSchedule>{
+        var alarmSchedules  = TreeSet<AlarmSchedule>(AlarmScheduleComparator())
+        var id : String
+        var time : String
+        var label : String
+        var millisecs : Long
+        var status : String
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_ALARM_SCHEDULES",null)
+        while (cursor.moveToNext()){
+            id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
+            time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME))
+            label = cursor.getString(cursor.getColumnIndex(COLUMN_LABEL))
+            millisecs = cursor.getInt(cursor.getColumnIndex(COLUMN_MILLISECS)).toLong()
+            status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS))
+
+            val tempObj = AlarmSchedule(id,
+                time,
+                label,
+                millisecs,
+                status)
+            alarmSchedules.add(tempObj)
+        }
+        cursor.close()
+        return alarmSchedules
+    }
 
     fun updateAlarmSchedule(id : String?,
                             time : String?,

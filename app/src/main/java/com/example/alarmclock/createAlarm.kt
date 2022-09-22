@@ -119,10 +119,25 @@ class createAlarm : AppCompatActivity(){
     @RequiresApi(Build.VERSION_CODES.N)
     fun createAlarmNow(){
         val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
-        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
-            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
+//        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
+//            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
         buttonClick(latestSchedule)
         finish()
+    }
+
+    fun buttonClick(alarmSchedule: AlarmSchedule) {
+        val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
+        intent.putExtra("alarmID",alarmSchedule.id)
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager?.set(
+            AlarmManager.RTC_WAKEUP,
+            alarmSchedule.getMilliSecs()!!,
+            pendingIntent
+        )
+        NotificationManagerCompat.from(this)
+            .cancel(NOTIFICATION_ID) //cancel last notification for repeated tests
     }
 
     fun createNotificationChannel(context: Context) {
@@ -140,20 +155,7 @@ class createAlarm : AppCompatActivity(){
         }
     }
 
-    fun buttonClick(alarmSchedule: AlarmSchedule) {
-        val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
-        intent.putExtra("alarmID",alarmSchedule.id)
-        val pendingIntent =
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager?.set(
-            AlarmManager.RTC_WAKEUP,
-            alarmSchedule.getMilliSecs()!!,
-            pendingIntent
-        )
-        NotificationManagerCompat.from(this)
-            .cancel(NOTIFICATION_ID) //cancel last notification for repeated tests
-    }
+
 
     companion object{
         var is_important : Boolean = false
