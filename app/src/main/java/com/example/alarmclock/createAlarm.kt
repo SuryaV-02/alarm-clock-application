@@ -1,9 +1,6 @@
 package com.example.alarmclock
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
@@ -16,11 +13,35 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.alarmclock.MainActivity.Companion.alarmScheduleAdapter
+import com.example.alarmclock.MainActivity.Companion.position
+import com.example.alarmclock.createAlarm.Companion.pose
+import com.example.alarmclock.createAlarm.Companion.userMessage
 import java.text.SimpleDateFormat
-import java.util.*
+import kotlin.random.Random
 
 
 class createAlarm : AppCompatActivity(){
+
+
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    override fun finish() {
+//        super.finish()
+//        alarmScheduleAdapter!!.notifyDataSetChanged()
+//    }
+
+    var alarmSchedule : AlarmSchedule? = null
+
+    override fun finish() {
+        val returnIntent = Intent()
+//        returnIntent.putExtra("position", position)
+        // setResult(RESULT_OK);
+        setResult(
+            RESULT_OK,
+            returnIntent
+        ) //By not passing the intent in the result, the calling activity will get null data.
+        super.finish()
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +71,6 @@ class createAlarm : AppCompatActivity(){
 
         createAlarmButton.setOnClickListener {
             createAlarmSchedule()
-
         }
         val dd_alarmType = findViewById<Spinner>(R.id.dd_alarmType)
         if (dd_alarmType != null) {
@@ -110,26 +130,38 @@ class createAlarm : AppCompatActivity(){
         val label = userMessage
         val time =  sdf.format(alarm.time).toString()
         val status = DEFAULT_STATUS
-        val id = UUID.randomUUID().toString()
+        val id = getUniqueID()
 
-        dbHelper!!.createAlarmSchedule(id,time,label,millisecs,status)
-        this.createAlarmNow()
+        alarmSchedule = AlarmSchedule(id,time,label,millisecs,status)
+        dbHelper!!.createAlarmSchedule(alarmSchedule!!)
+//        this.createAlarmNow()
+        buttonClick(alarmSchedule!!)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    fun createAlarmNow(){
-        val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
-//        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
-//            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
-        buttonClick(latestSchedule)
-        finish()
+//    @RequiresApi(Build.VERSION_CODES.N)
+//    fun createAlarmNow(){
+//        val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
+////        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
+////            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
+//        buttonClick(latestSchedule)
+//        finish()
+//    }
+
+    fun getUniqueID() : String{
+        var randomNumber = ""
+        for(i in 1..5){
+            randomNumber += Random.nextInt(0,10)
+        }
+        return randomNumber
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun buttonClick(alarmSchedule: AlarmSchedule) {
         val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
         intent.putExtra("alarmID",alarmSchedule.id)
+        intent.putExtra("alarmLabel",alarmSchedule.label)
         val pendingIntent =
-            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getBroadcast(this, alarmSchedule.id!!.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
         val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmManager?.set(
             AlarmManager.RTC_WAKEUP,
@@ -138,6 +170,8 @@ class createAlarm : AppCompatActivity(){
         )
         NotificationManagerCompat.from(this)
             .cancel(NOTIFICATION_ID) //cancel last notification for repeated tests
+        position = dbHelper!!.getAllAlarmSchedules().size
+        finish()
     }
 
     fun createNotificationChannel(context: Context) {
@@ -168,7 +202,7 @@ class createAlarm : AppCompatActivity(){
         var dbHelper : SqliteOpenHelper? = null
         fun CreateFullScreenNotification(context: Context?, intentParam: Intent) {
             val intent = Intent(context, alarmRinging::class.java)
-            intent.putExtra("user-custom_message",userMessage)
+            intent.putExtra("alarmLabel",intentParam.getStringExtra("alarmLabel"))
             intent.putExtra("alarmID",intentParam.getStringExtra("alarmID"))
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_USER_ACTION or Intent.FLAG_ACTIVITY_SINGLE_TOP

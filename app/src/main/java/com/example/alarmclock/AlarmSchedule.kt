@@ -3,7 +3,7 @@ package com.example.alarmclock
 class AlarmSchedule(
     var id: String?,
     var time: String?,
-    var label: String?,
+    var label: String? = "Alarm",
     var millisecs: Long?,
     var status: String?) {
 

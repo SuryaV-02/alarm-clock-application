@@ -38,20 +38,16 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         onCreate(db)
     }
 
-    fun createAlarmSchedule(id : String?,
-                        time : String?,
-                        label:String?,
-                        millisecs :Long?,
-                        status :String?){
+    fun createAlarmSchedule(alarmSchedule : AlarmSchedule){
 
         val values = ContentValues()
         val db = this.writableDatabase
 
-        values.put(COLUMN_ID,id)
-        values.put(COLUMN_TIME,time)
-        values.put(COLUMN_LABEL,label)
-        values.put(COLUMN_MILLISECS,millisecs)
-        values.put(COLUMN_STATUS,status)
+        values.put(COLUMN_ID,alarmSchedule.id)
+        values.put(COLUMN_TIME,alarmSchedule.time)
+        values.put(COLUMN_LABEL,alarmSchedule.label)
+        values.put(COLUMN_MILLISECS,alarmSchedule.millisecs)
+        values.put(COLUMN_STATUS,alarmSchedule.status)
         db.insert(TABLE_ALARM_SCHEDULES,null,values)
         Log.i("SKHST_DB","Insertion COMMAND success @createAlarmSchedule")
         db.close()
@@ -135,13 +131,13 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val status = if((alarmSchedule.status).equals("ON")) "OFF" else "ON"
         val values = ContentValues()
         val db = this.writableDatabase
-        values.put(COLUMN_ID,alarmSchedule.id)
-        values.put(COLUMN_TIME,alarmSchedule.time)
-        values.put(COLUMN_LABEL,alarmSchedule.label)
+//        values.put(COLUMN_ID,alarmSchedule.id)
+//        values.put(COLUMN_TIME,alarmSchedule.time)
+//        values.put(COLUMN_LABEL,alarmSchedule.label)
         values.put(COLUMN_MILLISECS,alarmSchedule.millisecs)
-        values.put(COLUMN_STATUS,status)
-        val id  = "\"$id\" "
-        db.update(TABLE_ALARM_SCHEDULES,values,"$COLUMN_ID = $id",null)
+//        values.put(COLUMN_STATUS,status)
+        val identifier  = "\"$id\""
+        db.update(TABLE_ALARM_SCHEDULES,values,"$COLUMN_ID = $identifier",null)
         db.close()
     }
 

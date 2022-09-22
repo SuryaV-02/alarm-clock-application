@@ -1,5 +1,6 @@
 package com.example.alarmclock
 
+import android.R.attr
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
@@ -11,11 +12,16 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 
+
 class MainActivity : AppCompatActivity() {
     @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.M)
     companion object{
         var dbHelper : SqliteOpenHelper? = null
+        var alarmScheduleAdapter : AlarmScheduleAdapter? = null
+        val CREATE_ALARM_ACIVITY_REQUEST_CODE = 122
+        var position = 1
+        var alarmSchedules : ArrayList<AlarmSchedule>? = null
     }
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,14 +34,26 @@ class MainActivity : AppCompatActivity() {
         val createAlarmButton = findViewById<Button>(R.id.createAlarm)
         createAlarmButton.setOnClickListener {
             val intent = Intent(this, createAlarm::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, CREATE_ALARM_ACIVITY_REQUEST_CODE)
         }
         dbHelper = SqliteOpenHelper(this,null)
-        val alarmSchedules = dbHelper!!.getAllAlarmSchedules()
+        alarmSchedules = ArrayList(dbHelper!!.getAllAlarmSchedules())
         val rv_alarmSchedules = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_alarmSchedules)
         rv_alarmSchedules.layoutManager = LinearLayoutManager(this)
-        val alarmScheduleAdapter = AlarmScheduleAdapter(this, ArrayList(alarmSchedules))
+        alarmScheduleAdapter = AlarmScheduleAdapter(this, alarmSchedules!!)
         Log.i("SKHST_57", alarmSchedules.toString())
         rv_alarmSchedules.adapter = alarmScheduleAdapter
     }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode === CREATE_ALARM_ACIVITY_REQUEST_CODE && resultCode === RESULT_OK) {
+            alarmSchedules!!.clear()
+            alarmSchedules!!.addAll(dbHelper!!.getAllAlarmSchedules())
+            alarmScheduleAdapter!!.notifyDataSetChanged()
+            Log.i("SKHST_58", "Notifying adapter.. at position $position")
+        }
+    }
+
 }
