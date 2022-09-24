@@ -1,6 +1,7 @@
 package com.example.alarmclock
 
 class AlarmSchedule(
+    var avatar : Int?,
     var id: String?,
     var time: String?,
     var label: String? = "Alarm",

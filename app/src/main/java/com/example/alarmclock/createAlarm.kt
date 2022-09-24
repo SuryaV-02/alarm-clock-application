@@ -131,21 +131,13 @@ class createAlarm : AppCompatActivity(){
         val time =  sdf.format(alarm.time).toString()
         val status = DEFAULT_STATUS
         val id = getUniqueID()
+        val avatar = id[0].toInt()
 
-        alarmSchedule = AlarmSchedule(id,time,label,millisecs,status)
+        alarmSchedule = AlarmSchedule(avatar,id,time,label,millisecs,status)
         dbHelper!!.createAlarmSchedule(alarmSchedule!!)
 //        this.createAlarmNow()
         buttonClick(alarmSchedule!!)
     }
-
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    fun createAlarmNow(){
-//        val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
-////        dbHelper!!.updateAlarmSchedule(latestSchedule.id,latestSchedule.time,
-////            latestSchedule.label,latestSchedule.millisecs, DEFAULT_STATUS)
-//        buttonClick(latestSchedule)
-//        finish()
-//    }
 
     fun getUniqueID() : String{
         var randomNumber = ""

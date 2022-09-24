@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,7 +13,7 @@ class AlarmScheduleAdapter(val context : Context, val items : ArrayList<AlarmSch
         val tv_details = view.findViewById<TextView>(R.id.tv_details)
         val tv_status = view.findViewById<TextView>(R.id.tv_status)
         val tv_label = view.findViewById<TextView>(R.id.tv_label)
-
+        val iv_icon = view.findViewById<ImageView>(R.id.iv_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,5 +31,12 @@ class AlarmScheduleAdapter(val context : Context, val items : ArrayList<AlarmSch
         holder.tv_details.text = time
         holder.tv_status.text = status
         holder.tv_label.text = label
+
+        val context: Context = holder.iv_icon.context
+        val avatarName = "avatar_0" + items[position].avatar
+        val id = context.resources.getIdentifier(avatarName, "drawable", context.packageName)
+        holder.iv_icon.setImageResource(id)
+
+
     }
 }

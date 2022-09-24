@@ -18,6 +18,8 @@
     <color name="milky_white">#FFFFFFFF</color>
     <color name="dark_black">#FF000000</color>
     <color name="pale_white">#e8e8e8</color>
+    <color name="itemBg">#D1D1D1</color>
+    <color name="textColor">#000000</color>
 
 
 </resources>

@@ -15,6 +15,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
             val DATABASE_VERSION= 1
             val TABLE_ALARM_SCHEDULES= "alarmSchedules"
 
+            private val COLUMN_AVATAR = "avatar"
             private val COLUMN_ID = "id_"
             private val COLUMN_TIME = "time"
             private val COLUMN_LABEL = "label"
@@ -24,6 +25,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createAlarmSchedulesTableCommand =( "CREATE TABLE $TABLE_ALARM_SCHEDULES (" +
+                "$COLUMN_AVATAR INTEGER" +
                 "$COLUMN_ID TEXT,"+
                 "$COLUMN_TIME TEXT,"+
                 "$COLUMN_LABEL TEXT,"+
@@ -43,6 +45,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val values = ContentValues()
         val db = this.writableDatabase
 
+        values.put(COLUMN_AVATAR, alarmSchedule.avatar)
         values.put(COLUMN_ID,alarmSchedule.id)
         values.put(COLUMN_TIME,alarmSchedule.time)
         values.put(COLUMN_LABEL,alarmSchedule.label)
@@ -56,6 +59,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
 
     fun getAlarmSchedules() : TreeSet<AlarmSchedule>{
         var alarmSchedules  = TreeSet<AlarmSchedule>(AlarmScheduleComparator())
+        var avatar : Int
         var id : String
         var time : String
         var label : String
@@ -65,13 +69,15 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $TABLE_ALARM_SCHEDULES WHERE $COLUMN_STATUS = $SELECTION_STATUS",null)
         while (cursor.moveToNext()){
+            avatar = cursor.getInt(cursor.getColumnIndex(COLUMN_AVATAR))
             id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
             time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME))
             label = cursor.getString(cursor.getColumnIndex(COLUMN_LABEL))
             millisecs = cursor.getInt(cursor.getColumnIndex(COLUMN_MILLISECS)).toLong()
             status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS))
 
-            val tempObj = AlarmSchedule(id,
+            val tempObj = AlarmSchedule(avatar,
+                id,
                 time,
                 label,
                 millisecs,
@@ -84,6 +90,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
 
     fun getAllAlarmSchedules() : TreeSet<AlarmSchedule>{
         var alarmSchedules  = TreeSet<AlarmSchedule>(AlarmScheduleComparator())
+        var avatar : Int
         var id : String
         var time : String
         var label : String
@@ -92,13 +99,15 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val db = this.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM $TABLE_ALARM_SCHEDULES",null)
         while (cursor.moveToNext()){
+            avatar = cursor.getInt(cursor.getColumnIndex(COLUMN_AVATAR))
             id = cursor.getString(cursor.getColumnIndex(COLUMN_ID))
             time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME))
             label = cursor.getString(cursor.getColumnIndex(COLUMN_LABEL))
             millisecs = cursor.getInt(cursor.getColumnIndex(COLUMN_MILLISECS)).toLong()
             status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS))
 
-            val tempObj = AlarmSchedule(id,
+            val tempObj = AlarmSchedule(avatar,
+                id,
                 time,
                 label,
                 millisecs,
@@ -131,11 +140,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val status = if((alarmSchedule.status).equals("ON")) "OFF" else "ON"
         val values = ContentValues()
         val db = this.writableDatabase
-//        values.put(COLUMN_ID,alarmSchedule.id)
-//        values.put(COLUMN_TIME,alarmSchedule.time)
-//        values.put(COLUMN_LABEL,alarmSchedule.label)
         values.put(COLUMN_MILLISECS,alarmSchedule.millisecs)
-//        values.put(COLUMN_STATUS,status)
         val identifier  = "\"$id\""
         db.update(TABLE_ALARM_SCHEDULES,values,"$COLUMN_ID = $identifier",null)
         db.close()
@@ -146,6 +151,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val db = this.readableDatabase
         val id = "\"$uid\""
         var tempObj : AlarmSchedule
+        var avatar : Int
         var time : String
         var label : String
         var millisecs : Long
@@ -154,11 +160,13 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         if(cursor!=null){
             cursor.moveToFirst()
         }
+        avatar = cursor.getInt(cursor.getColumnIndex(COLUMN_AVATAR))
         time = cursor.getString(cursor.getColumnIndex(COLUMN_TIME))
         label = cursor.getString(cursor.getColumnIndex(COLUMN_LABEL))
         millisecs = cursor.getInt(cursor.getColumnIndex(COLUMN_MILLISECS)).toLong()
         status = cursor.getString(cursor.getColumnIndex(COLUMN_STATUS))
-        tempObj = AlarmSchedule(id,
+        tempObj = AlarmSchedule(avatar,
+            id,
             time,
             label,
             millisecs,
