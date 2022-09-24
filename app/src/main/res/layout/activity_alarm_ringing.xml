@@ -7,76 +7,53 @@
     tools:context=".alarmRinging"
     android:orientation="vertical"
     android:gravity="center"
-    android:paddingVertical="10dp"
+    android:padding="10dp"
     android:background="@color/milky_white"
     android:fitsSystemWindows="true"
     >
-    <TextView
-        android:id="@+id/tv_alarm_ring_title"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:text="Time's up!"
-        android:textSize="80dp"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/dark_black"
-        android:fontFamily="@font/roboto"
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:src="@drawable/avatar_01"
         />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingHorizontal="25dp"
-        android:gravity="center_horizontal"
-        android:layout_weight="7">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Message : "
-            android:textSize="25dp"
-            android:textColor="@color/dark_black"
-            android:fontFamily="@font/roboto"
-            />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginVertical="40dp">
         <TextView
             android:id="@+id/tv_usr_custom_message"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Time is up!"
-            android:textSize="25dp"
-            android:textColor="@color/dark_black"
-            android:fontFamily="@font/roboto"
+            android:text="Your message here"
+            android:textSize="48sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="it's"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/tv_alarm_ring_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12 : 32"
+            android:textSize="48sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             />
     </LinearLayout>
-<!--    <Button-->
-<!--        android:id="@+id/snoozeButton"-->
-<!--        android:layout_width="300dp"-->
-<!--        android:layout_height="300dp"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:alpha="0.8"-->
-<!--        android:background="@drawable/snooze_button"-->
-<!--        android:fontFamily="@font/roboto"-->
-<!--        android:text="time"-->
-<!--        android:textColor="@color/milky_white"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textAllCaps="false"-->
-<!--        android:ellipsize="end"-->
-<!--        />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/stopButton"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_marginVertical="50dp"-->
-<!--        android:alpha="0.8"-->
-<!--        android:background="@drawable/stop_button"-->
-<!--        android:fontFamily="@font/roboto"-->
-<!--        android:text="STOP"-->
-<!--        android:textColor="@color/milky_white"-->
-<!--        android:textSize="20dp" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
         >
         <Button
             android:layout_width="0dp"
@@ -85,7 +62,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/simple_stop_button"
             android:text="Snooze"
-            android:paddingHorizontal="50dp"
+            android:paddingHorizontal="20dp"
             android:paddingVertical="20dp"
             android:id="@+id/snoozeButton"
             android:textColor="@color/white"

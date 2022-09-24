@@ -1,6 +1,9 @@
 package com.example.alarmclock
 
-import android.app.*
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
@@ -13,10 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.alarmclock.MainActivity.Companion.alarmScheduleAdapter
 import com.example.alarmclock.MainActivity.Companion.position
-import com.example.alarmclock.createAlarm.Companion.pose
-import com.example.alarmclock.createAlarm.Companion.userMessage
 import java.text.SimpleDateFormat
 import kotlin.random.Random
 
@@ -130,8 +130,9 @@ class createAlarm : AppCompatActivity(){
         val label = userMessage
         val time =  sdf.format(alarm.time).toString()
         val status = DEFAULT_STATUS
-        val id = getUniqueID()
-        val avatar = id[0].toInt()
+        val id : String = getUniqueID()
+        val avatar = (id[0]).toString().toInt()
+//        val a = "112".
 
         alarmSchedule = AlarmSchedule(avatar,id,time,label,millisecs,status)
         dbHelper!!.createAlarmSchedule(alarmSchedule!!)

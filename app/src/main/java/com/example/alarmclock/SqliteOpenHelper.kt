@@ -25,7 +25,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createAlarmSchedulesTableCommand =( "CREATE TABLE $TABLE_ALARM_SCHEDULES (" +
-                "$COLUMN_AVATAR INTEGER" +
+                "$COLUMN_AVATAR INTEGER, " +
                 "$COLUMN_ID TEXT,"+
                 "$COLUMN_TIME TEXT,"+
                 "$COLUMN_LABEL TEXT,"+
