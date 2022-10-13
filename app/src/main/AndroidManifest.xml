@@ -2,17 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alarmclock">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <application
         android:allowBackup="true"
-        android:icon="@drawable/clock"
+        android:icon="@drawable/avatar_01"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/clock"
+        android:roundIcon="@drawable/avatar_01"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
-        <activity android:name=".createAlarm"></activity>
-        <activity android:name=".alarmRinging"
+        <activity android:name=".after_notification"></activity>
+        <activity android:name=".createAlarm" />
+        <activity
+            android:name=".alarmRinging"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
+            android:showWhenLocked="true"
+            android:noHistory="true"
             />
         <activity android:name=".MainActivity">
             <intent-filter>

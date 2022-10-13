@@ -17,7 +17,13 @@
     <color name="dark_bg">#302c34</color>
     <color name="milky_white">#FFFFFFFF</color>
     <color name="dark_black">#FF000000</color>
+    <color name="pale_black">#1C1C1C</color>
     <color name="pale_white">#e8e8e8</color>
+    <color name="itemBg">#D1D1D1</color>
+    <color name="textColor">#000000</color>
+    <color name="grey">#c8c7c2</color>
 
-
+    <color name="nice_yellow">#004c69</color>
+    <color name="mdtp_accent_color">#070B82</color>
+    <color name="mdtp_accent_color_dark">#0D105E</color>
 </resources>
