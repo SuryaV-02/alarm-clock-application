@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         var dbHelper : SqliteOpenHelper? = null
         var alarmScheduleAdapter : AlarmScheduleAdapter? = null
         val CREATE_ALARM_ACIVITY_REQUEST_CODE = 122
-        var position = 1
         var alarmSchedules : ArrayList<AlarmSchedule>? = null
     }
     @RequiresApi(Build.VERSION_CODES.M)
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             alarmSchedules!!.clear()
             alarmSchedules!!.addAll(dbHelper!!.getAllAlarmSchedules())
             alarmScheduleAdapter!!.notifyDataSetChanged()
-            Log.i("SKHST_58", "Notifying adapter.. at position $position")
         }
     }
 

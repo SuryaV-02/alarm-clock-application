@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.alarmclock.MainActivity.Companion.position
+import com.example.alarmclock.AlarmHelper.Companion.createAlarmPendingIntent
 import java.text.SimpleDateFormat
 import kotlin.random.Random
 
@@ -68,6 +68,8 @@ class createAlarm : AppCompatActivity(){
         val createAlarmButton = findViewById<Button>(R.id.createAlarmButton)
 
         val time_picker = findViewById<TimePicker>(R.id.time_picker)
+//        time_picker.explicitStyle = R.style.myTimePickerStyle
+
 
         createAlarmButton.setOnClickListener {
             createAlarmSchedule()
@@ -137,7 +139,8 @@ class createAlarm : AppCompatActivity(){
         alarmSchedule = AlarmSchedule(avatar,id,time,label,millisecs,status)
         dbHelper!!.createAlarmSchedule(alarmSchedule!!)
 //        this.createAlarmNow()
-        buttonClick(alarmSchedule!!)
+        createAlarmPendingIntent(alarmSchedule!!, this)
+        finish()
     }
 
     fun getUniqueID() : String{
@@ -148,24 +151,7 @@ class createAlarm : AppCompatActivity(){
         return randomNumber
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun buttonClick(alarmSchedule: AlarmSchedule) {
-        val intent = Intent(FULL_SCREEN_ACTION, null, this, myBroadcastReceiver::class.java)
-        intent.putExtra("alarmID",alarmSchedule.id)
-        intent.putExtra("alarmLabel",alarmSchedule.label)
-        val pendingIntent =
-            PendingIntent.getBroadcast(this, alarmSchedule.id!!.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val alarmManager = this.getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmManager?.set(
-            AlarmManager.RTC_WAKEUP,
-            alarmSchedule.getMilliSecs()!!,
-            pendingIntent
-        )
-        NotificationManagerCompat.from(this)
-            .cancel(NOTIFICATION_ID) //cancel last notification for repeated tests
-        position = dbHelper!!.getAllAlarmSchedules().size
-        finish()
-    }
+
 
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

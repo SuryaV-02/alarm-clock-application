@@ -13,48 +13,44 @@
     android:paddingHorizontal="10dp"
     android:layout_marginHorizontal="5dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/clock"
-            android:padding="20dp"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        >
-        <TextView
-            android:id="@+id/tv_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textColor="@color/textColor"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:text="label"
-            />
-        <TextView
-            android:id="@+id/tv_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:layout_marginVertical="5dp"
-            android:textColor="@color/textColor"
-            android:textSize="12sp"
-            tools:text="time" />
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:gravity="center">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_icon"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:src="@drawable/clock"-->
+<!--            android:padding="20dp"-->
+<!--            />-->
+<!--    </LinearLayout>-->
+   <LinearLayout
+       android:layout_width="0dp"
+       android:layout_weight="3"
+       android:orientation="vertical"
+       android:paddingHorizontal="18dp"
+       android:layout_height="wrap_content">
+       <TextView
+           android:id="@+id/tv_details"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="left"
+           android:layout_marginVertical="5dp"
+           android:textColor="@color/pale_white"
+           android:textSize="42sp"
+           tools:text="time" />
+       <TextView
+           android:id="@+id/tv_label"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="left"
+           android:textColor="@color/pale_white"
+           android:textSize="12sp"
+           tools:text="label"
+           />
+   </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -67,6 +63,7 @@
             android:layout_height="wrap_content"
             android:thumb="@drawable/thumb"
             app:track="@drawable/track"
+            android:checked="true"
             />
     </LinearLayout>
 </LinearLayout>

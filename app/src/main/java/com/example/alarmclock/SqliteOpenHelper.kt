@@ -140,7 +140,7 @@ class SqliteOpenHelper(context: Context, factory: SQLiteDatabase.CursorFactory?)
         val status = if((alarmSchedule.status).equals("ON")) "OFF" else "ON"
         val values = ContentValues()
         val db = this.writableDatabase
-        values.put(COLUMN_MILLISECS,alarmSchedule.millisecs)
+        values.put(COLUMN_STATUS,status)
         val identifier  = "\"$id\""
         db.update(TABLE_ALARM_SCHEDULES,values,"$COLUMN_ID = $identifier",null)
         db.close()

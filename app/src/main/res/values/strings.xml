@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Alarm</string>
+    <string name="alarm_title">Your awesome day starts here!</string>
+    <string name="set_alarm_title">Set your alarm details here</string>
 
     <string-array name="alarmType">
         <item>Alarm</item>

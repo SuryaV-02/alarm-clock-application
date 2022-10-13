@@ -7,6 +7,7 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -54,6 +55,7 @@ class alarmRinging : AppCompatActivity() {
         stopButton.setOnClickListener {
 //            val latestSchedule = dbHelper!!.getLatestAlarmSchedule()
 //            buttonClick(latestSchedule)
+            Log.i("SKHST_432","Toggling alarm as it's stopped")
             dbHelper!!.toggleAlarmSchedule(intent.getStringExtra("alarmID").toString())
             mp.stop()
             finish()
@@ -82,7 +84,11 @@ class alarmRinging : AppCompatActivity() {
         val tv_usr_custom_message = findViewById<TextView>(R.id.tv_usr_custom_message)
         val tv_alarm_ring_title = findViewById<TextView>(R.id.tv_alarm_ring_title)
         tv_alarm_ring_title.text = getCurrentTime("HH : mm")
-        tv_usr_custom_message.text = intent.getStringExtra("alarmLabel")
+        var message = intent.getStringExtra("alarmLabel")
+        if(message.isNullOrEmpty()){
+            message = "Alarm"
+        }
+        tv_usr_custom_message.text = message
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

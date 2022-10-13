@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/alarmScheduleBg.xml" value="0.176" />
+        <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/alarm_main_bg.xml" value="0.182" />
         <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/alarm_schedule_bg.xml" value="0.182" />
+        <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/description_text_bg.xml" value="0.182" />
+        <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/edit_text_bg.xml" value="0.182" />
         <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/rounded_button_background.xml" value="0.182" />
         <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/simple_snooze_button.xml" value="0.182" />
         <entry key="..\:/#Jayashree/AndroidDevFiles/AlarmClock/app/src/main/res/drawable/simple_stop_button.xml" value="0.182" />
