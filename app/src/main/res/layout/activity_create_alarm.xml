@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/kaushan_script"
             android:text="@string/set_alarm_title"
-            android:textColor="@color/nice_yellow"
+            android:textColor="@color/grey"
             android:gravity="center |left"
             android:textSize="45dp" />
     </LinearLayout>
@@ -51,14 +51,6 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="30dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
-                android:text="Type"
-                android:textColor="@color/pale_white"
-                android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/dd_alarmType"
@@ -77,16 +69,16 @@
             android:gravity="center"
             android:paddingHorizontal="30dp">
 
-            <TextView
-                android:id="@+id/font"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/roboto"
-                android:text="Label"
-                android:textColor="@color/pale_white"
-                android:textSize="20sp"
-                android:visibility="visible" />
+<!--            <TextView-->
+<!--                android:id="@+id/font"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:fontFamily="@font/roboto"-->
+<!--                android:text="Label"-->
+<!--                android:textColor="@color/pale_white"-->
+<!--                android:textSize="20sp"-->
+<!--                android:visibility="visible" />-->
 
             <EditText
                 android:id="@+id/labelText"
@@ -95,10 +87,13 @@
                 android:layout_weight="1"
                 android:background="@drawable/edit_text_bg"
                 android:fontFamily="@font/roboto"
-                android:paddingVertical="5dp"
+                android:paddingVertical="10dp"
                 android:textAlignment="center"
+                android:hint="Message"
+                android:textColorHint="@color/grey"
                 android:textColor="@color/pale_white"
-                android:visibility="visible" />
+                android:visibility="visible"
+                />
         </LinearLayout>
 
         <EditText

@@ -23,7 +23,7 @@
     <color name="textColor">#000000</color>
     <color name="grey">#c8c7c2</color>
 
-    <color name="nice_yellow">#ffc840</color>
+    <color name="nice_yellow">#004c69</color>
     <color name="mdtp_accent_color">#070B82</color>
     <color name="mdtp_accent_color_dark">#0D105E</color>
 </resources>

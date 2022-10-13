@@ -29,6 +29,13 @@
         <item name="android:colorControlNormal">@color/pale_white</item> <!-- color for (horizontal) delimeters -->
     </style>
 
+    <style name="digitalClockTheme">
+        <item name="android:textSize">32dp</item>
+        <item name="android:fontFamily">@font/kaushan_script</item>
+        <item name="android:textColorPrimary">@color/pale_white</item> <!-- color for digits -->
+        <item name="android:textColor">@color/pale_white</item> <!-- color for colon -->
+    </style>
+
     <style name="dropDownTheme">
         <item name="android:textColorPrimary">@color/pale_white</item> <!-- color for digits -->
         <item name="android:background">@color/pale_black</item> <!-- color for digits -->

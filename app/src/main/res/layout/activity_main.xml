@@ -10,52 +10,82 @@
     android:paddingTop="30dp"
     tools:context=".MainActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="9"
-    android:orientation="vertical"
-    android:paddingHorizontal="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingVertical="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="10"
         android:gravity="center"
-        android:layout_weight="3">
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kaushan_script"
-            android:text="@string/alarm_title"
-            android:textColor="@color/nice_yellow"
-            android:gravity="center |left"
-            android:textSize="45dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_alarmSchedules"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
+
+            <AnalogClock
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:theme="@style/digitalClockTheme" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/alarm_title"
+                android:textColor="@color/grey"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center">
+            <View
+                android:layout_width="220dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/grey" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="9">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_alarmSchedules"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center">
-
         <Button
             android:id="@+id/createAlarm"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="match_parent"
             android:background="@color/nice_yellow"
             android:text="Create"
             android:textColor="@color/white"
